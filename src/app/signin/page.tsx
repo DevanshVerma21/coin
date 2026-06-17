@@ -1,0 +1,104 @@
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { AuthError } from "next-auth";
+import { auth, signIn } from "@/lib/auth";
+import { AuthForm } from "./_auth-form";
+
+export const metadata: Metadata = {
+  title: "Sign In — NTIK Heritage Archive",
+  description: "Sign in or create your NTIK Heritage collector account.",
+};
+
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "This email is already linked to a different provider.",
+  OAuthCallbackError: "Sign-in was cancelled or an error occurred. Please try again.",
+  AccessDenied: "Access was denied. Please contact the curator.",
+  Default: "Something went wrong during sign-in. Please try again.",
+};
+
+interface PageProps {
+  searchParams: Promise<{ error?: string; callbackUrl?: string; mode?: string }>;
+}
+
+export default async function SignInPage({ searchParams }: PageProps) {
+  const session = await auth();
+  if (session) redirect("/");
+
+  const params = await searchParams;
+  const oauthError = params.error
+    ? (OAUTH_ERRORS[params.error] ?? OAUTH_ERRORS.Default)
+    : null;
+  const callbackUrl = params.callbackUrl ?? "/";
+
+  // ── Server actions passed to client form ────────────────────────────────────
+
+  async function googleSignIn() {
+    "use server";
+    await signIn("google", { redirectTo: callbackUrl });
+  }
+
+  async function credSignIn(
+    formData: FormData
+  ): Promise<{ error?: string } | undefined> {
+    "use server";
+    try {
+      await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        redirectTo: callbackUrl,
+      });
+    } catch (err) {
+      if (err instanceof AuthError) {
+        return { error: "Invalid email or password. Please try again." };
+      }
+      throw err; // NEXT_REDIRECT — let Next.js handle navigation
+    }
+  }
+
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-12"
+      style={{ background: "#f5f0e8" }}
+    >
+      <div className="w-full max-w-[400px]">
+
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <Link
+            href="/"
+            className="font-serif font-bold text-[28px] tracking-[0.08em] mb-2 transition-opacity hover:opacity-60"
+            style={{ color: "#1a1208" }}
+          >
+            NTIK
+          </Link>
+          <p
+            className="tracking-[0.16em] uppercase"
+            style={{ fontFamily: "var(--font-public-sans)", fontSize: "10px", color: "#8a7560", fontWeight: 500 }}
+          >
+            Heritage Numismatic Archive
+          </p>
+        </div>
+
+        {/* Auth card */}
+        <AuthForm
+          googleAction={googleSignIn}
+          credSignInAction={credSignIn}
+          oauthError={oauthError}
+          callbackUrl={callbackUrl}
+        />
+
+        {/* Back link */}
+        <div className="mt-6 text-center">
+          <Link
+            href="/"
+            className="text-[12px] tracking-[0.08em] uppercase transition-colors hover:text-[#1a1208]"
+            style={{ fontFamily: "var(--font-public-sans)", color: "#8a7560" }}
+          >
+            ← Return to Archive
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

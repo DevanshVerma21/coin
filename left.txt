@@ -1,0 +1,8 @@
+so one thing is to add a feature to delete images from cloudinary too like in the media valut 
+admin pannel logo to redirect
+add a logo eveywhere
+the notification logo 
+remove sample data button
+footer improve
+improve the sold effect on photo
+rewrite the request query thing

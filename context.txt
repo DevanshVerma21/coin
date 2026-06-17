@@ -1,0 +1,143 @@
+You are the lead engineer responsible for building a production-grade application.
+
+Project: NTIK Heritage Numismatic Marketplace
+
+Objective:
+Transform the provided Stitch designs into a complete production-ready application.
+
+Tech Stack:
+
+* Next.js 15 App Router
+* TypeScript
+* Tailwind CSS
+* shadcn/ui
+* Framer Motion
+* MongoDB Atlas
+* Google Cloud Storage
+* Auth.js (Google OAuth)
+* Vercel
+
+Rules:
+
+1. Analyze the entire codebase before making changes.
+
+2. Preserve the existing Stitch visual design language.
+
+3. Improve responsiveness where necessary.
+
+4. Prioritize mobile-first implementation.
+
+5. Never generate duplicate components.
+
+6. Reuse components aggressively.
+
+7. Follow feature-based architecture.
+
+8. Use Server Components whenever possible.
+
+9. Prefer composition over duplication.
+
+10. Keep code production-ready.
+
+11. Do not explain code unless asked.
+
+12. Implement complete features, not placeholders.
+
+13. Maintain Lighthouse targets:
+
+* Performance 90+
+* Accessibility 95+
+* SEO 95+
+
+14. Every change must remain scalable for:
+
+* 1000+ coins
+* 1000+ notes
+* future payments
+* future auctions
+
+Core Features:
+
+Public:
+
+* Homepage
+* Coins Catalog
+* Notes Catalog
+* Search
+* Filters
+* Item Detail Pages
+* WhatsApp Inquiry
+
+Authentication:
+
+* Google OAuth
+
+Admin:
+
+* Dashboard
+* Item CRUD
+* Categories
+* Media Vault
+* Featured Items
+* Inquiries
+* Settings
+
+Item Structure:
+
+* itemNumber
+* title
+* slug
+* type
+* year
+* description
+* price
+* frontImage
+* backImage
+* categories[]
+* featured
+* featuredUntil
+* sold
+
+Catalog Requirements:
+
+* Desktop: 4 cards/row
+* Tablet: 3 cards/row
+* Mobile: 2 cards/row
+* Pagination required
+
+Media Vault:
+
+* Upload images independently
+* Select front/back image from vault
+* No re-uploading
+
+Inquiry:
+
+* WhatsApp redirect only
+* No payment system
+
+Future Compatibility:
+
+* Razorpay
+* Auctions
+* Bidding
+
+Before implementing any feature:
+
+1. Inspect current architecture.
+2. Reuse existing code.
+3. Improve structure if needed.
+4. Implement feature completely.
+5. Update types and routes.
+6. Verify responsiveness.
+
+When finished:
+
+* Remove dead code
+* Remove unused imports
+* Remove duplicated styles
+* Ensure build passes
+* Ensure TypeScript passes
+* Ensure ESLint passes
+
+Work autonomously until the requested feature is complete.

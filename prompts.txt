@@ -1,0 +1,6 @@
+Analyze the project and create a production-grade folder structure. Refactor without changing the UI.
+Implement Auth.js with Google OAuth and role-based access. Create Viewer, Buyer, and Admin roles.
+Create MongoDB schemas and server actions for items, categories, media, and inquiries.
+Build the Media Vault. Admin uploads images once and can assign them to items later.
+Build the catalog system with search, filters, pagination, and SEO-friendly routes.
+Build the admin dashboard and CRUD system using existing design components.
