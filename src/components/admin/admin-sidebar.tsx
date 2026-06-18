@@ -39,7 +39,11 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   return (
     <aside className="flex flex-col w-64 h-full bg-card border-r border-border">
-      <div className="flex h-16 items-center gap-2 px-5 border-b border-border">
+      <Link
+        href="/"
+        className="flex h-16 items-center gap-2 px-5 border-b border-border hover:bg-muted/50 transition-colors"
+        title="Return to public site"
+      >
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
           <Coins className="h-4 w-4 text-primary" />
         </div>
@@ -47,7 +51,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
           <p className="font-serif font-bold text-sm gold-text">NTIK</p>
           <p className="text-[10px] text-muted-foreground">Admin Panel</p>
         </div>
-      </div>
+      </Link>
 
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
         {navItems.map((item) => (

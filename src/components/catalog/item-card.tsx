@@ -29,35 +29,24 @@ export function ItemCard({ item }: ItemCardProps) {
         boxShadow: "0 2px 6px rgba(34,27,8,0.06)",
       }}
     >
-      {/* Status badges */}
-      <div className="absolute top-2 left-2 z-10 flex flex-wrap gap-1">
-        {item.featured && (
+      {/* Featured badge */}
+      {item.featured && !item.sold && (
+        <div className="absolute top-2 left-2 z-10">
           <span
-            className="label-caps px-1.5 py-0.5 rounded"
+            className="label-caps px-2 py-1"
             style={{
-              background: "rgba(212,175,55,0.15)",
-              color: "#735c00",
-              border: "1px solid rgba(212,175,55,0.3)",
+              background: "linear-gradient(135deg,#735c00,#c9a227)",
+              color: "#ffffff",
               fontSize: "9px",
+              borderRadius: "2px",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.35)",
+              letterSpacing: "0.12em",
             }}
           >
-            Featured
+            ★ Featured
           </span>
-        )}
-        {item.sold && (
-          <span
-            className="label-caps px-1.5 py-0.5 rounded"
-            style={{
-              background: "rgba(186,26,26,0.1)",
-              color: "#ba1a1a",
-              border: "1px solid rgba(186,26,26,0.2)",
-              fontSize: "9px",
-            }}
-          >
-            Sold
-          </span>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Flip button (show back) */}
       {item.backImage && (
@@ -93,12 +82,42 @@ export function ItemCard({ item }: ItemCardProps) {
           fill
           className={cn(
             "object-contain p-3 transition-all duration-500",
-            item.sold && "opacity-50 grayscale-[40%]",
-            "group-hover:scale-[1.04]"
+            item.sold ? "blur-[2px] scale-[1.02]" : "group-hover:scale-[1.04]"
           )}
           loading="lazy"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
+
+        {/* Sold overlay — blurred backdrop with centred stamp */}
+        {item.sold && (
+          <div className="absolute inset-0 flex items-center justify-center"
+            style={{ background: "rgba(10,8,4,0.38)" }}
+          >
+            <div
+              className="flex flex-col items-center gap-0.5"
+              style={{
+                border: "1.5px solid rgba(255,255,255,0.75)",
+                padding: "6px 14px",
+                borderRadius: "2px",
+                transform: "rotate(-8deg)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-public-sans)",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  letterSpacing: "0.22em",
+                  color: "#ffffff",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}
+              >
+                Sold
+              </span>
+            </div>
+          </div>
+        )}
       </Link>
 
       {/* Stitch surface-container divider */}
