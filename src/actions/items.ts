@@ -124,7 +124,7 @@ export async function getFeaturedItems(limit = 8): Promise<IItemPopulated[]> {
   const now = new Date();
   const docs = await Item.find({
     featured: true,
-    sold: false,
+    // sold items are still shown — a sold piece is still worth showcasing
     $or: [{ featuredUntil: { $gt: now } }, { featuredUntil: null }],
   })
     .populate("categories")

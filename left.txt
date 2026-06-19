@@ -1,4 +1,5 @@
-add a logo eveywhere
 remove sample data button
-footer improve
-rewrite the request query thing
+
+add terms and services page \privacy and policy
+
+a little query logic should be corrected that if i made a query my mail should also be seen by the admin so that admin can contact the user 

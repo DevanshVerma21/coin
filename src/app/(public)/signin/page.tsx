@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { AuthError } from "next-auth";
 import { auth, signIn } from "@/lib/auth";
 import { AuthForm } from "./_auth-form";
@@ -31,8 +30,6 @@ export default async function SignInPage({ searchParams }: PageProps) {
     : null;
   const callbackUrl = params.callbackUrl ?? "/";
 
-  // ── Server actions passed to client form ────────────────────────────────────
-
   async function googleSignIn() {
     "use server";
     await signIn("google", { redirectTo: callbackUrl });
@@ -52,52 +49,22 @@ export default async function SignInPage({ searchParams }: PageProps) {
       if (err instanceof AuthError) {
         return { error: "Invalid email or password. Please try again." };
       }
-      throw err; // NEXT_REDIRECT — let Next.js handle navigation
+      throw err;
     }
   }
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-12"
-      style={{ background: "#f5f0e8" }}
+      className="flex flex-col items-center justify-center px-4 py-10 sm:py-14"
+      style={{ background: "#f5f0e8", minHeight: "calc(100vh - 60px)" }}
     >
-      <div className="w-full max-w-[400px]">
-
-        {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
-          <Link
-            href="/"
-            className="font-serif font-bold text-[28px] tracking-[0.08em] mb-2 transition-opacity hover:opacity-60"
-            style={{ color: "#1a1208" }}
-          >
-            NTIK
-          </Link>
-          <p
-            className="tracking-[0.16em] uppercase"
-            style={{ fontFamily: "var(--font-public-sans)", fontSize: "10px", color: "#8a7560", fontWeight: 500 }}
-          >
-            Heritage Numismatic Archive
-          </p>
-        </div>
-
-        {/* Auth card */}
+      <div className="w-full max-w-[420px]">
         <AuthForm
           googleAction={googleSignIn}
           credSignInAction={credSignIn}
           oauthError={oauthError}
           callbackUrl={callbackUrl}
         />
-
-        {/* Back link */}
-        <div className="mt-6 text-center">
-          <Link
-            href="/"
-            className="text-[12px] tracking-[0.08em] uppercase transition-colors hover:text-[#1a1208]"
-            style={{ fontFamily: "var(--font-public-sans)", color: "#8a7560" }}
-          >
-            ← Return to Archive
-          </Link>
-        </div>
       </div>
     </div>
   );

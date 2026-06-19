@@ -101,7 +101,7 @@ export function Hero({ featuredImageUrl }: HeroProps) {
             View Collection
           </Link>
           <Link
-            href="/curators"
+            href="#inquiry"
             className="inline-flex items-center justify-center h-11 px-8 text-[12px] font-semibold tracking-[0.12em] uppercase transition-all text-[#1a1208] hover:bg-[#1a1208] hover:text-[#f5f0e8] w-full sm:w-auto"
             style={{
               fontFamily: "var(--font-public-sans)",

@@ -1,7 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 import { ImageGallery } from "@/components/item/image-gallery";
 import { WhatsAppInquiryButton } from "@/components/item/whatsapp-inquiry-button";
 import { DownloadButton } from "@/components/item/download-button";
@@ -32,6 +33,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function CoinDetailPage({ params }: PageProps) {
+  // Require login to view item details
+  const session = await auth();
+  if (!session?.user) {
+    const { slug } = await params;
+    redirect(`/signin?callbackUrl=/coins/${slug}`);
+  }
+
   const { slug } = await params;
   const item = await getItemBySlug(slug);
   if (!item || item.type !== "coin") notFound();
