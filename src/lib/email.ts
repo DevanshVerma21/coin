@@ -3,7 +3,12 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? "NTIK Heritage <noreply@resend.dev>";
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Never fall back to localhost — if NEXT_PUBLIC_SITE_URL is unset in production
+// the email links would break. Fail loudly in that case.
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "").replace(/\/$/, "") ||
+  (process.env.NODE_ENV === "production"
+    ? (() => { throw new Error("NEXT_PUBLIC_SITE_URL must be set in production"); })()
+    : "http://localhost:3000");
 const SITE_NAME = "NTIK Heritage";
 
 function emailWrapper(body: string): string {

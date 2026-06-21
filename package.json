@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "set NODE_OPTIONS=--tls-min-v1.0 && next dev --turbopack",
+    "dev:linux": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

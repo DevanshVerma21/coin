@@ -29,7 +29,9 @@ const publicSans = Public_Sans({
   weight: ["400", "500", "600"],   // removed 300 + 700
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ntik.in";
+// NEXT_PUBLIC_SITE_URL must be set in production.
+// Falls back to the Render URL so OG/canonical URLs are never localhost in prod.
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://ntik-2hwf.onrender.com").replace(/\/$/, "");
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? "NTIK Heritage Marketplace";
 
 export const metadata: Metadata = {

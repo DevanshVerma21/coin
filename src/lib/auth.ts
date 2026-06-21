@@ -14,6 +14,11 @@ const adminEmails = (process.env.ADMIN_EMAILS ?? "")
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
 
+  // trustHost lets Auth.js derive the URL from the incoming request Host header.
+  // This means it works on localhost, Render, Vercel, and custom domains without
+  // needing NEXTAUTH_URL / AUTH_URL set — the host header is trusted automatically.
+  trustHost: true,
+
   adapter: MongoDBAdapter(clientPromise),
   session: { strategy: "jwt" },
 
