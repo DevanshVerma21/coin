@@ -15,13 +15,15 @@ async function getPendingCount(): Promise<number> {
 }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
+  // Run auth + inquiry count in parallel — saves one serial round-trip
+  const [session, pendingCount] = await Promise.all([
+    auth(),
+    getPendingCount(),
+  ]);
 
   if (!session?.user || session.user.role !== "admin") {
     redirect("/signin");
   }
-
-  const pendingCount = await getPendingCount();
 
   return (
     <div className="flex min-h-screen bg-muted/30">

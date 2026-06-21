@@ -54,3 +54,6 @@ ehthumbs.db
 
 # dotenv environment variable files
 .env*.local
+
+
+left.txt

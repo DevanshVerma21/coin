@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, EB_Garamond, Public_Sans } from "next/font/google";
 import { Toaster } from "sonner";
+import { NavProgress } from "@/components/layout/nav-progress";
 import "./globals.css";
 
 // Stitch: Playfair Display — headlines / display
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect to Cloudinary CDN for LCP images */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <NavProgress />
         {children}
         <Toaster richColors position="top-right" />
       </body>

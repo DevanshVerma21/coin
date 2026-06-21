@@ -7,6 +7,8 @@ import { getItems } from "@/actions/items";
 import type { CatalogFilters } from "@/types";
 import { Search } from "lucide-react";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Search",
   description: "Search our collection of rare antique coins and banknotes.",

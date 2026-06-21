@@ -208,6 +208,12 @@
   line-height: 1;
 }
 
+/* ── Skeleton shimmer keyframe ───────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* ── Hero entrance animations (replaces Framer Motion) ───────────────────── */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
