@@ -126,7 +126,7 @@ export function ImageGallery({
     const onTouchStart = (e: TouchEvent) => { startX = e.touches[0].clientX; };
     const onTouchEnd = (e: TouchEvent) => {
       const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 50) { dx < 0 ? lightboxNext() : lightboxPrev(); }
+      if (Math.abs(dx) > 50) { if (dx < 0) lightboxNext(); else lightboxPrev(); }
     };
     document.addEventListener("touchstart", onTouchStart, { capture: true });
     document.addEventListener("touchend", onTouchEnd, { capture: true });
