@@ -3,12 +3,23 @@ import sharp from "sharp";
 import type { StorageProvider } from "./types";
 
 function getCloudinary() {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true,
-  });
+  const cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
+  const api_key = process.env.CLOUDINARY_API_KEY;
+  const api_secret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloud_name || !api_key || !api_secret) {
+    const missing = [
+      !cloud_name && "CLOUDINARY_CLOUD_NAME",
+      !api_key && "CLOUDINARY_API_KEY",
+      !api_secret && "CLOUDINARY_API_SECRET",
+    ].filter(Boolean);
+    throw new Error(
+      `Cloudinary credentials missing: ${missing.join(", ")}. ` +
+      `Add them in your Render Environment Variables dashboard.`
+    );
+  }
+
+  cloudinary.config({ cloud_name, api_key, api_secret, secure: true });
   return cloudinary;
 }
 
@@ -31,6 +42,11 @@ export const cloudinaryProvider: StorageProvider = {
         .toBuffer();
     }
 
+    console.log(
+      `[upload] Starting Cloudinary upload: "${originalName}" ` +
+      `(${(processedBuffer.byteLength / 1024).toFixed(1)} KB, ${mimeType}) → folder "${folder}"`
+    );
+
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       getCloudinary().uploader
         .upload_stream(
@@ -40,12 +56,17 @@ export const cloudinaryProvider: StorageProvider = {
             format: ext === "gif" ? "gif" : "jpg",
           },
           (err, res) => {
-            if (err || !res) reject(err ?? new Error("Upload failed"));
+            if (err || !res) reject(err ?? new Error("Cloudinary upload_stream returned no response"));
             else resolve(res);
           }
         )
         .end(processedBuffer);
     });
+
+    console.log(
+      `[upload] Cloudinary success: "${originalName}" → ${result.secure_url} ` +
+      `(${result.bytes} bytes, ${result.width}×${result.height})`
+    );
 
     return {
       url: result.secure_url,
@@ -61,8 +82,9 @@ export const cloudinaryProvider: StorageProvider = {
   async delete(publicId) {
     try {
       await getCloudinary().uploader.destroy(publicId);
-    } catch {
-      // Asset may not exist
+      console.log(`[upload] Cloudinary delete success: ${publicId}`);
+    } catch (err) {
+      console.warn(`[upload] Cloudinary delete failed for "${publicId}":`, err);
     }
   },
 
@@ -70,3 +92,4 @@ export const cloudinaryProvider: StorageProvider = {
     return `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${publicId}`;
   },
 };
+

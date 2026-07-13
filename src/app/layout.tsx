@@ -1,32 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, EB_Garamond, Public_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { NavProgress } from "@/components/layout/nav-progress";
 import "./globals.css";
 
-// Stitch: Playfair Display — headlines / display
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const playfair = localFont({
+  src: [
+    { path: "../../public/fonts/playfair_display_600.woff2", weight: "600", style: "normal" },
+    { path: "../../public/fonts/playfair_display_700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-playfair",
   display: "swap",
-  weight: ["600", "700"],          // only semibold + bold used
 });
 
-// Stitch: EB Garamond — body copy
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
+const ebGaramond = localFont({
+  src: [
+    { path: "../../public/fonts/eb_garamond_400.woff2",        weight: "400", style: "normal" },
+    { path: "../../public/fonts/eb_garamond_500.woff2",        weight: "500", style: "normal" },
+    { path: "../../public/fonts/eb_garamond_400_italic.woff2", weight: "400", style: "italic" },
+    { path: "../../public/fonts/eb_garamond_500_italic.woff2", weight: "500", style: "italic" },
+  ],
   variable: "--font-eb-garamond",
   display: "swap",
-  weight: ["400", "500"],          // regular + medium only
-  style: ["normal", "italic"],
 });
 
-// Stitch: Public Sans — labels / UI / navigation
-const publicSans = Public_Sans({
-  subsets: ["latin"],
+const publicSans = localFont({
+  src: [
+    { path: "../../public/fonts/public_sans_400.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/public_sans_500.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/public_sans_600.woff2", weight: "600", style: "normal" },
+  ],
   variable: "--font-public-sans",
   display: "swap",
-  weight: ["400", "500", "600"],   // removed 300 + 700
 });
 
 // NEXT_PUBLIC_SITE_URL must be set in production.

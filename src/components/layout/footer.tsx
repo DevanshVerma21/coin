@@ -5,8 +5,6 @@ const footerLinks = [
   { href: "/", label: "Museum" },
   { href: "/coins", label: "Coins" },
   { href: "/notes", label: "Notes" },
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms of Service" },
 ];
 
 export function Footer() {

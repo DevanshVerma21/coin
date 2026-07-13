@@ -25,7 +25,7 @@ export function CuratorInquiry() {
     const message = `Hello, I would like to make a private inquiry.\n\nName: ${form.name}\nEmail: ${form.email}\nService: ${form.service || "General Inquiry"}\n\nPlease contact me at your earliest convenience.`;
 
     const url = buildWhatsAppUrl(phone, message);
-    window.open(url, "_blank", "noopener,noreferrer");
+    window.location.href = url;
 
     setTimeout(() => {
       setSent(true);

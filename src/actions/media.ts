@@ -64,23 +64,37 @@ export async function uploadMedia(formData: FormData): Promise<ActionResult<IMed
     return { success: false, error: "File size must be under 10MB" };
   }
 
-  await connectDB();
+  try {
+    await connectDB();
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const result = await uploadImageToStorage(buffer, file.name, file.type);
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-  const tagsRaw = formData.get("tags") as string | null;
-  const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+    console.log(
+      `[media] Upload started: "${file.name}" (${(file.size / 1024).toFixed(1)} KB, ${file.type}) by ${session.user.email}`
+    );
 
-  const doc = await MediaAsset.create({
-    ...result,
-    originalName: file.name,
-    uploadedBy: session.user.email,
-    tags,
-  });
+    const result = await uploadImageToStorage(buffer, file.name, file.type);
 
-  revalidatePath("/admin/media");
-  return { success: true, data: serialize(doc) };
+    const tagsRaw = formData.get("tags") as string | null;
+    const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+
+    const doc = await MediaAsset.create({
+      ...result,
+      originalName: file.name,
+      uploadedBy: session.user.email,
+      tags,
+    });
+
+    console.log(`[media] Upload complete: "${file.name}" → ${result.url}`);
+
+    revalidatePath("/admin/media");
+    return { success: true, data: serialize(doc) };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown upload error";
+    console.error(`[media] Upload FAILED for "${file.name}":`, err);
+    return { success: false, error: `Upload failed: ${message}` };
+  }
 }
 
 export async function deleteMedia(id: string): Promise<ActionResult> {

@@ -63,9 +63,9 @@ export function InquiriesTable({ inquiries, meta, currentStatus }: InquiriesTabl
 
   return (
     <div className="space-y-4">
-      {/* Status filter tabs */}
+      {/* Status filter tabs — "closed" omitted because closing auto-deletes */}
       <div className="flex gap-2 border-b border-border pb-2">
-        {["all", "pending", "contacted", "closed"].map((s) => (
+        {["all", "pending", "contacted"].map((s) => (
           <button
             key={s}
             onClick={() => setStatusFilter(s)}
@@ -128,7 +128,7 @@ export function InquiriesTable({ inquiries, meta, currentStatus }: InquiriesTabl
                       <SelectContent>
                         <SelectItem value="pending">Pending</SelectItem>
                         <SelectItem value="contacted">Contacted</SelectItem>
-                        <SelectItem value="closed">Closed</SelectItem>
+                        <SelectItem value="closed">Close & Delete</SelectItem>
                       </SelectContent>
                     </Select>
                   )}

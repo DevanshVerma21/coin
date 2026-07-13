@@ -43,6 +43,7 @@ const itemSchema = new Schema<IItemDocument>(
 );
 
 itemSchema.index({ type: 1 });
+itemSchema.index({ type: 1, createdAt: -1 }); // primary catalog sort query
 itemSchema.index({ featured: 1, featuredUntil: 1 });
 itemSchema.index({ sold: 1 });
 itemSchema.index({ year: 1 });

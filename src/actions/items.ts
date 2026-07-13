@@ -54,6 +54,11 @@ function serialize(doc: unknown): IItem {
   };
 }
 
+// Fields required for catalog card display. Excludes description, historicalContext,
+// provenance, and other archival detail that is only needed on the item detail page.
+const CATALOG_PROJECTION =
+  "itemNumber slug title type year price frontImage categories sold featured rarity";
+
 export async function getItems(
   filters: CatalogFilters = {}
 ): Promise<PaginatedResponse<IItemPopulated>> {
@@ -98,7 +103,8 @@ export async function getItems(
 
   const [docs, total] = await Promise.all([
     Item.find(query)
-      .populate("categories")
+      .select(CATALOG_PROJECTION)
+      .populate("categories", "name slug type")
       .sort(sortMap[sort] ?? [["createdAt", -1]])
       .skip((page - 1) * limit)
       .limit(limit)
@@ -127,7 +133,8 @@ export async function getFeaturedItems(limit = 8): Promise<IItemPopulated[]> {
     // sold items are still shown — a sold piece is still worth showcasing
     $or: [{ featuredUntil: { $gt: now } }, { featuredUntil: null }],
   })
-    .populate("categories")
+    .select(CATALOG_PROJECTION)
+    .populate("categories", "name slug type")
     .sort([["createdAt", -1]])
     .limit(limit)
     .lean();
@@ -167,7 +174,8 @@ export async function getRelatedItems(
       { type },
     ],
   })
-    .populate("categories")
+    .select(CATALOG_PROJECTION)
+    .populate("categories", "name slug type")
     .sort([["featured", -1], ["createdAt", -1]])
     .limit(limit)
     .lean();

@@ -110,8 +110,8 @@ export function RelatedItems({ items, categoryLabel, type }: RelatedItemsProps) 
               style={{ fontFamily: "var(--font-public-sans)", color: "#6b5c45" }}
             >
               {item.denomination && `${item.denomination}. `}
-              {item.description.slice(0, 100)}
-              {item.description.length > 100 ? "…" : ""}
+              {(item.description ?? "").slice(0, 100)}
+              {(item.description ?? "").length > 100 ? "…" : ""}
             </p>
           </Link>
         ))}

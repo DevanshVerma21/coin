@@ -17,14 +17,16 @@ export function WhatsAppInquiryButton({ item }: WhatsAppInquiryButtonProps) {
     setLoading(true);
     try {
       const result = await createInquiry({
-        itemId: item._id,
-        itemTitle: item.title,
+        itemId:     item._id,
+        itemTitle:  item.title,
         itemNumber: item.itemNumber,
+        itemSlug:   item.slug,
+        itemType:   item.type,
       });
       if (result.success && result.data) {
-        window.open(result.data.whatsappUrl, "_blank", "noopener,noreferrer");
+        window.location.href = result.data.whatsappUrl;
       } else {
-        toast.error("Could not open WhatsApp. Please try again.");
+        toast.error(result.error ?? "Could not open WhatsApp. Please try again.");
       }
     } catch {
       toast.error("Something went wrong. Please try again.");
