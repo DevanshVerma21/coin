@@ -10,11 +10,9 @@ import {
   ImageIcon,
   Star,
   MessageSquare,
-  Settings,
   Coins,
   Menu,
   X,
-  Sprout,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,8 +23,6 @@ const navItems = [
   { href: "/admin/media", icon: ImageIcon, label: "Media Vault" },
   { href: "/admin/featured", icon: Star, label: "Featured" },
   { href: "/admin/inquiries", icon: MessageSquare, label: "Inquiries" },
-  { href: "/admin/settings", icon: Settings, label: "Settings" },
-  { href: "/admin/seed", icon: Sprout, label: "Sample Data" },
 ];
 
 function SidebarContent({ onClose }: { onClose?: () => void }) {

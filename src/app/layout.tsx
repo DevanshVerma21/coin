@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
 import { NavProgress } from "@/components/layout/nav-progress";
 import "./globals.css";
@@ -111,6 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NavProgress />
         {children}
         <Analytics />
+        <SpeedInsights />
         <Toaster richColors position="top-right" />
       </body>
     </html>
