@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import { NavProgress } from "@/components/layout/nav-progress";
 import "./globals.css";
@@ -109,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <NavProgress />
         {children}
+        <Analytics />
         <Toaster richColors position="top-right" />
       </body>
     </html>
