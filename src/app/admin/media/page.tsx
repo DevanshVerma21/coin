@@ -18,7 +18,7 @@ export default async function AdminMediaPage({ searchParams }: PageProps) {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="font-serif text-2xl font-bold text-foreground">Media Vault</h1>
+        <h1 className="font-serif text-2xl font-bold text-foreground">Image Gallery</h1>
         <p className="text-sm text-muted-foreground">{meta.total} assets total</p>
       </div>
       <MediaVault initialAssets={assets} meta={meta} />

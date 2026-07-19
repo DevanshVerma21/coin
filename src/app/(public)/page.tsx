@@ -25,12 +25,9 @@ export default async function HomePage() {
   const coinSample = coinResult.data[0] ?? null;
   const noteSample = noteResult.data[0] ?? null;
 
-  // Use the first featured item's front image for the hero spotlight
-  const heroImage = featuredItems[0]?.frontImage ?? null;
-
   return (
     <>
-      <Hero featuredImageUrl={heroImage ?? undefined} />
+      <Hero />
       <ArchiveSelection
         coinSample={coinSample as never}
         noteSample={noteSample as never}

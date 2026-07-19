@@ -40,7 +40,8 @@ export function ImageGallery({
   const [lightboxOpen, setLightboxOpen]   = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogRef   = useRef<HTMLDialogElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   function selectImage(idx: number) {
     if (idx === selected) return;
@@ -120,11 +121,21 @@ export function ImageGallery({
   }, [lightboxOpen, lightboxPrev, lightboxNext]);
 
   // Touch swipe left/right → navigate images.
+  // FIX: Skip swipe logic when the touch originated on the close button,
+  // otherwise the capture-phase handler steals the tap and the button
+  // fires only intermittently on mobile (especially with slight finger drift).
   useEffect(() => {
     if (!lightboxOpen) return;
     let startX = 0;
-    const onTouchStart = (e: TouchEvent) => { startX = e.touches[0].clientX; };
+    let touchedCloseBtn = false;
+    const onTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+      // Record whether the touch started on / inside the close button
+      touchedCloseBtn = closeBtnRef.current?.contains(e.target as Node) ?? false;
+    };
     const onTouchEnd = (e: TouchEvent) => {
+      // Don't swipe-navigate when the user tapped the close button
+      if (touchedCloseBtn) return;
       const dx = e.changedTouches[0].clientX - startX;
       if (Math.abs(dx) > 50) { if (dx < 0) lightboxNext(); else lightboxPrev(); }
     };
@@ -255,24 +266,34 @@ export function ImageGallery({
           className="fixed inset-0 bg-black/95 flex items-center justify-center"
           onClick={(e) => { if (e.target === e.currentTarget) closeLightbox(); }}
         >
-          {/* Close button — only visible UI element */}
+          {/* Close button — z-20 ensures it sits above the image container.
+              touch-action:manipulation removes the 300ms tap delay on mobile.
+              onPointerDown fires on first contact before swipe logic can interfere. */}
           <button
-            className="absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center
+            ref={closeBtnRef}
+            className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full flex items-center justify-center
                        bg-white/15 border border-white/20 cursor-pointer hover:bg-white/25 transition-colors"
-            style={{ color: "#f5f0e8" }}
+            style={{ color: "#f5f0e8", touchAction: "manipulation" }}
             onClick={closeLightbox}
-            aria-label="Close"
+            onPointerDown={(e) => {
+              // Ensures close fires reliably on mobile even if onClick is
+              // swallowed by the document-level touch-swipe capture handler.
+              e.stopPropagation();
+            }}
+            aria-label="Close fullscreen viewer"
           >
             <X size={20} />
           </button>
 
-          {/* Image — no arrows, no dots; navigate via keyboard or swipe */}
-          <div className="relative w-full h-[85vh] max-w-5xl mx-auto px-4">
+          {/* Image — pointer-events-none prevents the container from intercepting
+              taps aimed at the close button on mobile. The <img> inside still
+              receives pointer events for right-click / long-press via auto. */}
+          <div className="relative w-full h-[85vh] max-w-5xl mx-auto px-4 pointer-events-none">
             <Image
               src={thumbnails[lightboxIndex]}
               alt={`${title} — image ${lightboxIndex + 1}`}
               fill
-              className="object-contain"
+              className="object-contain pointer-events-auto"
               sizes="(max-width: 768px) 100vw, 1280px"
               priority
             />

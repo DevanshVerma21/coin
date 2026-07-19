@@ -149,7 +149,7 @@
   .btn-gold:hover {
     background: linear-gradient(135deg, #574500, #b8960a);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3), 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .scrollbar-hide {
@@ -176,6 +176,15 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Button hover polish — subtle lift + gold accent shadow */
+  .btn-hover-polish {
+    transition: all 0.2s ease;
+  }
+  .btn-hover-polish:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 }
 

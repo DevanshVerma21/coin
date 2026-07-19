@@ -57,7 +57,7 @@ function serialize(doc: unknown): IItem {
 // Fields required for catalog card display. Excludes description, historicalContext,
 // provenance, and other archival detail that is only needed on the item detail page.
 const CATALOG_PROJECTION =
-  "itemNumber slug title type year price frontImage categories sold featured rarity";
+  "itemNumber slug title type year price frontImage categories sold featured rarity createdAt";
 
 export async function getItems(
   filters: CatalogFilters = {}
@@ -306,6 +306,15 @@ export async function toggleFeatured(id: string): Promise<ActionResult> {
   await connectDB();
   const doc = await Item.findById(id);
   if (!doc) return { success: false, error: "Item not found" };
+
+  // Enforce a maximum of 3 featured items
+  if (!doc.featured) {
+    const featuredCount = await Item.countDocuments({ featured: true });
+    if (featuredCount >= 3) {
+      return { success: false, error: "Maximum of 3 featured items allowed. Remove one before adding another." };
+    }
+  }
+
   await Item.findByIdAndUpdate(id, { featured: !doc.featured });
   revalidatePath("/admin/items");
   revalidatePath("/admin/featured");

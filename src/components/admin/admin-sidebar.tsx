@@ -20,7 +20,7 @@ const navItems = [
   { href: "/admin", icon: LayoutDashboard, label: "Dashboard", exact: true },
   { href: "/admin/items", icon: Package, label: "Items" },
   { href: "/admin/categories", icon: FolderOpen, label: "Categories" },
-  { href: "/admin/media", icon: ImageIcon, label: "Media Vault" },
+  { href: "/admin/media", icon: ImageIcon, label: "Image Gallery" },
   { href: "/admin/featured", icon: Star, label: "Featured" },
   { href: "/admin/inquiries", icon: MessageSquare, label: "Inquiries" },
 ];

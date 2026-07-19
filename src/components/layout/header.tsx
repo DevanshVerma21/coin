@@ -80,18 +80,18 @@ export function Header({ session }: HeaderProps) {
       <div className="max-w-[1280px] mx-auto px-5 sm:px-8 lg:px-16">
         <div className="flex h-[60px] items-center justify-between">
 
-          {/* Logo */}
+          {/* Logo — Task 5: increased from 22px → 25px (~14%) */}
           <Link
             href="/"
             aria-label="NTIK Home"
-            className="font-serif font-bold text-[22px] tracking-[0.06em] leading-none transition-opacity hover:opacity-70"
+            className="font-serif font-bold text-[25px] tracking-[0.06em] leading-none transition-opacity hover:opacity-70"
             style={{ color: "#1a1208" }}
           >
             NTIK
           </Link>
 
-          {/* Desktop nav — centered */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Primary navigation">
+          {/* Desktop nav — centered — Task 5: gap-1 → gap-2 */}
+          <nav className="hidden md:flex items-center gap-2" aria-label="Primary navigation">
             {navLinks.map((link) => {
               const active = isActive(link);
               return (
@@ -232,13 +232,19 @@ export function Header({ session }: HeaderProps) {
                 )}
               </div>
             ) : (
+              /* Task 3: Premium "Sign In" pill — transparent bg, antique gold border, rounded pill */
               <Link
                 href="/signin"
-                className="hidden md:flex h-9 w-9 items-center justify-center rounded transition-colors hover:bg-black/5"
-                style={{ color: "#6b5c45" }}
+                className="hidden md:inline-flex items-center gap-2 h-9 px-5 rounded-full text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-200 hover:bg-[rgba(201,162,39,0.08)]"
+                style={{
+                  fontFamily: "var(--font-public-sans)",
+                  color: "#6b5c45",
+                  border: "1px solid rgba(201,162,39,0.4)",
+                }}
                 aria-label="Sign in"
               >
-                <User className="h-[17px] w-[17px]" />
+                <User className="h-[15px] w-[15px]" />
+                Sign In
               </Link>
             )}
 
@@ -325,10 +331,15 @@ export function Header({ session }: HeaderProps) {
                   </button>
                 </>
               ) : (
+                /* Task 3: Mobile Sign In — pill style matching desktop */
                 <Link
                   href="/signin"
-                  className="flex items-center gap-2 px-3 py-3 text-[13px] font-semibold tracking-[0.1em] uppercase text-[#6b5c45] hover:text-[#1a1208] transition-colors"
-                  style={{ fontFamily: "var(--font-public-sans)" }}
+                  className="flex items-center gap-2 mx-3 mt-1 px-4 py-2.5 rounded-full text-[12px] font-semibold tracking-[0.1em] uppercase transition-all duration-200 hover:bg-[rgba(201,162,39,0.08)] justify-center"
+                  style={{
+                    fontFamily: "var(--font-public-sans)",
+                    color: "#6b5c45",
+                    border: "1px solid rgba(201,162,39,0.4)",
+                  }}
                 >
                   <User className="h-4 w-4" />
                   Sign In

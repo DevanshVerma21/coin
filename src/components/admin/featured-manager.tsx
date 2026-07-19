@@ -81,7 +81,7 @@ export function FeaturedManager({ featuredItems, availableItems }: FeaturedManag
         <div className="px-4 py-3 border-b border-border bg-amber-50/50">
           <h2 className="font-semibold text-sm flex items-center gap-2">
             <Star className="h-4 w-4 text-amber-500" />
-            Currently Featured ({featuredItems.length})
+            Currently Featured ({featuredItems.length}/3)
           </h2>
         </div>
         <div className="p-2 max-h-[500px] overflow-y-auto">

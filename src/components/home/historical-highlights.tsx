@@ -129,7 +129,7 @@ function ItemCard({ item }: { item: IItemPopulated }) {
         {/* View Details button */}
         <Link
           href={href}
-          className="mt-auto inline-flex items-center justify-center h-9 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all text-[#1a1208] hover:bg-[#1a1208] hover:text-white"
+          className="mt-auto inline-flex items-center justify-center h-9 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all duration-200 text-[#1a1208] hover:bg-[#1a1208] hover:text-white hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(212,175,55,0.12)]"
           style={{
             fontFamily: "var(--font-public-sans)",
             border: "1px solid rgba(26,18,8,0.3)",
@@ -200,7 +200,7 @@ function PlaceholderCard({ item }: { item: typeof PLACEHOLDER_ITEMS[0] }) {
 
         <Link
           href="/coins"
-          className="mt-auto inline-flex items-center justify-center h-9 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all text-[#1a1208] hover:bg-[#1a1208] hover:text-white"
+          className="mt-auto inline-flex items-center justify-center h-9 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all duration-200 text-[#1a1208] hover:bg-[#1a1208] hover:text-white hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(212,175,55,0.12)]"
           style={{
             fontFamily: "var(--font-public-sans)",
             border: "1px solid rgba(26,18,8,0.3)",

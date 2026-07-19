@@ -2,16 +2,16 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+/**
+ * Static hero image URL.
+ * Set NEXT_PUBLIC_HERO_IMAGE in .env.local to override.
+ * Falls back to the original Cloudinary asset.
+ */
 const HERO_IMG =
+  process.env.NEXT_PUBLIC_HERO_IMAGE ??
   "https://res.cloudinary.com/djprgnsae/image/upload/v1781638332/ntik-heritage/ntik-heritage/AB6AXuD4YXq5--RR7gaBhG6CM9iNv-sOJWN7msF7.jpg";
 
-interface HeroProps {
-  featuredImageUrl?: string;
-}
-
-export function Hero({ featuredImageUrl }: HeroProps) {
-  const imgSrc = featuredImageUrl ?? HERO_IMG;
-
+export function Hero() {
   return (
     <section
       className="w-full py-12 sm:py-16 lg:py-20 px-5 sm:px-8"
@@ -46,7 +46,7 @@ export function Hero({ featuredImageUrl }: HeroProps) {
           Preserving Tactile History
         </h1>
 
-        {/* Spotlight coin image */}
+        {/* Spotlight coin image — STATIC, never changes with featured items */}
         <div
           className="mx-auto mb-8 relative overflow-hidden animate-fade-in-scale"
           style={{
@@ -59,11 +59,13 @@ export function Hero({ featuredImageUrl }: HeroProps) {
           }}
         >
           <Image
-            src={imgSrc}
+            src={HERO_IMG}
             alt="Featured numismatic piece"
             fill
             className="object-contain p-6"
             priority
+            fetchPriority="high"
+            loading="eager"
             sizes="(max-width: 640px) 220px, (max-width: 1024px) 40vw, 360px"
           />
         </div>
@@ -90,7 +92,7 @@ export function Hero({ featuredImageUrl }: HeroProps) {
         >
           <Link
             href="/coins"
-            className="inline-flex items-center justify-center h-11 px-8 text-[12px] font-semibold tracking-[0.12em] uppercase transition-all hover:opacity-90 hover:-translate-y-0.5 w-full sm:w-auto"
+            className="inline-flex items-center justify-center h-11 px-8 text-[12px] font-semibold tracking-[0.12em] uppercase transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,175,55,0.18)] w-full sm:w-auto"
             style={{
               fontFamily: "var(--font-public-sans)",
               background: "#1a1208",
@@ -102,7 +104,7 @@ export function Hero({ featuredImageUrl }: HeroProps) {
           </Link>
           <Link
             href="#inquiry"
-            className="inline-flex items-center justify-center h-11 px-8 text-[12px] font-semibold tracking-[0.12em] uppercase transition-all text-[#1a1208] hover:bg-[#1a1208] hover:text-[#f5f0e8] w-full sm:w-auto"
+            className="inline-flex items-center justify-center h-11 px-8 text-[12px] font-semibold tracking-[0.12em] uppercase transition-all duration-200 text-[#1a1208] hover:bg-[#1a1208] hover:text-[#f5f0e8] hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(26,18,8,0.1)] w-full sm:w-auto"
             style={{
               fontFamily: "var(--font-public-sans)",
               border: "1px solid #1a1208",
